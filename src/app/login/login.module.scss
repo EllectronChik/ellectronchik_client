@@ -1,0 +1,25 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  justify-content: center;
+  align-items: center;
+
+  .center {
+    display: flex;
+    gap: 2rem;
+
+    .orContainer {
+      transform: translate(9px, 0);
+      height: 45%;
+      width: 1px;
+      background-color: $blueColor;
+    }
+
+    .or {
+      font-size: 1.5rem;
+    }
+  }
+}
