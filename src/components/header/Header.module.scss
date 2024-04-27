@@ -1,0 +1,44 @@
+@import "@/variables.scss";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  height: 50px;
+  padding: 0 50px;
+  border-bottom: 1px solid $blueColor;
+
+  .navigation {
+    .list {
+      display: flex;
+      gap: 20px;
+      list-style-type: none;
+
+      .listItem {
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 2px solid $blueColor;
+        }
+
+        .link {
+          font-size: 1.5rem;
+          text-decoration: none;
+          color: black;
+        }
+      }
+    } 
+  }
+
+  .logout {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    height: 34px;
+    &:hover {
+      color: $carnationPinkColor;
+    }
+  }
+}
