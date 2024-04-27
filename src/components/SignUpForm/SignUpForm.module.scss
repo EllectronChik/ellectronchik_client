@@ -1,0 +1,79 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  .header {
+    width: 400px;
+    height: 100px;
+    padding: 20px 50px;
+    border-radius: 15px 15px 0 0;
+    border: 1px solid $blueColor;
+    border-bottom: none;
+    .title {
+      font-weight: 300;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 400px;
+    display: flex;
+
+    .inputContainer {
+      position: relative;
+      .label {
+        display: none;
+      }
+      .input {
+        width: 400px;
+        height: 75px;
+        border: 1px solid $blueColor;
+        border-bottom: 0;
+        padding: 10px 50px;
+        font-size: 20px;
+      }
+      .showPassword {
+        position: absolute;
+        top: 30px;
+        right: 20px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        &:hover {
+          color: $carnationPinkColor;
+        }
+      }
+    }
+
+    .errorContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid $blueColor;
+      padding: 0px 20px;
+      .error {
+        width: 100%;
+        text-align: center;
+        color: $carnationPinkColor;
+        font-size: 20px;
+        &:not(:last-child) {
+          border-bottom: 1px dashed $blueColor;
+        }
+      }
+    }
+
+    .submitButton {
+      width: 400px;
+      height: 75px;
+      border: 1px solid $blueColor;
+      border-radius: 0 0 15px 15px;
+      background: $blueColor;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+}
