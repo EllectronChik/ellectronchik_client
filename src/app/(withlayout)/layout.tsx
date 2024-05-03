@@ -1,4 +1,5 @@
 import Header from "@/components/header/Header";
+import { CookiesProvider } from "next-client-cookies/server";
 
 export default function RootLayout({
   children,
@@ -7,7 +8,9 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Header />
+      <CookiesProvider>
+        <Header />
+      </CookiesProvider>
       <main>{children}</main>
     </>
   );
