@@ -1,0 +1,58 @@
+@import "@/variables.scss";
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  .calendarIcon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    .calendar {
+      width: 80%;
+      height: 80%;
+    }
+  }
+  .calendarContainer {
+    position: absolute;
+    top: 50px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid $carnationPinkColor;
+    box-shadow: 0 0 10px $carnationPinkColor;
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-flow: dense;
+    gap: 10px;
+
+    .monthSelect {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-self: flex-end;
+
+      .monthButton {
+        display: flex;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 20px;
+
+        .month {
+          &::first-letter {
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+    .weekDay {
+      font-size: 20px;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
