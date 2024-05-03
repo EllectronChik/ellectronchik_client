@@ -44,7 +44,7 @@ const client = new ApolloClient({
       fetchPolicy: "no-cache",
       errorPolicy: "all",
     },
-  }
+  },
 });
 
 const query = gql`
@@ -66,13 +66,14 @@ export async function revalidateMiddleware(request: NextRequest) {
         },
       },
     });
-    
+
     const response = NextResponse.next();
 
     if (!data.revalidateToken) {
       response.cookies.set("key", "", { maxAge: 0 });
       response.cookies.set("refresh-token", "", { maxAge: 0 });
       response.cookies.set("x-access-token", "", { maxAge: 0 });
+      response.cookies.set("logedIn", "", { maxAge: 0 });
     } else {
       response.cookies.set("refresh-token", data.revalidateToken.refreshToken, {
         httpOnly: true,
@@ -87,6 +88,10 @@ export async function revalidateMiddleware(request: NextRequest) {
         secure: process.env.NODE_ENV === "production",
         maxAge: 1000 * 60 * 15,
       });
+
+      response.cookies.set("logedIn", "true", {
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+      });
     }
 
     return response;
@@ -95,6 +100,7 @@ export async function revalidateMiddleware(request: NextRequest) {
     response.cookies.set("key", "", { maxAge: 0 });
     response.cookies.set("refresh-token", "", { maxAge: 0 });
     response.cookies.set("x-access-token", "", { maxAge: 0 });
+    response.cookies.set("logedIn", "", { maxAge: 0 });
     return response;
   }
 }
