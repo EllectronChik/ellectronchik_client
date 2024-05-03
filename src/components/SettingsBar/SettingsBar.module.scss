@@ -1,0 +1,28 @@
+@import "@/variables.scss";
+
+.settingsBar {
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  width: 1400px;
+  height: 50px;
+  margin: 20px 0px;
+  border: 1px solid $blueColor;
+  border-radius: 50px;
+  padding: 0 20px;
+
+  .search {
+    display: flex;
+    border: none;
+    border-bottom: 1px solid $blueColor;
+    font-size: 20px;
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $blueColor;
+    }
+  }
+  .calendar {
+    height: 48px;
+    width: 48px;
+  }
+}
