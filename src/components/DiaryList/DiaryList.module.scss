@@ -1,0 +1,11 @@
+@import "@/variables.scss";
+
+.container {
+  .list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 1400px;
+    gap: 20px;
+  }
+}
