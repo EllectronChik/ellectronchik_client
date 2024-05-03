@@ -2,10 +2,20 @@
 
 import Link from "next/link";
 import classes from "./Header.module.scss";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCookies } from "next-client-cookies";
+import { useEffect } from "react";
 
-const Header = async () => {
+const Header = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const cookies = useCookies();
+
+  useEffect(() => {
+    if (!cookies.get("logedIn")) {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <header className={classes.header}>
@@ -16,27 +26,31 @@ const Header = async () => {
               pathname === "/diary" ? classes.active : ""
             }`}
           >
-            <Link className={classes.link} href="/diary">Diary</Link>
+            <Link className={classes.link} href="/diary">
+              Diary
+            </Link>
           </li>
           <li
             className={`${classes.listItem} ${
               pathname === "/tasks" ? classes.active : ""
             }`}
           >
-            <Link className={classes.link} href="/tasks">Tasks</Link>
+            <Link className={classes.link} href="/tasks">
+              Tasks
+            </Link>
           </li>
           <li
             className={`${classes.listItem} ${
               pathname === "/goals" ? classes.active : ""
             }`}
           >
-            <Link className={classes.link} href="/goals">Goals</Link>
+            <Link className={classes.link} href="/goals">
+              Goals
+            </Link>
           </li>
         </ul>
       </nav>
-      <button className={classes.logout}>
-        Logout
-      </button>
+      <button className={classes.logout}>Logout</button>
     </header>
   );
 };
