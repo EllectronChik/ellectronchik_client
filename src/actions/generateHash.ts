@@ -8,11 +8,16 @@ export default async function generateHash(password: string) {
   const updatedInput = `${firstHash}${password}${process.env.SECRET}`;
 
   const secondHash = crypto
-    .createHash('sha256')
+    .createHash('md5')
     .update(updatedInput)
     .digest('hex');
   
-  cookies().set('key', `${secondHash}`);
+  cookies().set('key', `${secondHash}`, {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+  });
   
   return secondHash;
 }
