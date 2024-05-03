@@ -1,0 +1,75 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  border: 1px solid $blueColor;
+  width: 650px;
+  box-shadow: 0 0 10px $blueColor;
+
+  &:nth-child(2n) {
+    justify-self: flex-end;
+  }
+
+  .header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: $blueColor;
+    border-radius: 15px 15px 0 0;
+    height: 110px;
+    .paperClip {
+      pointer-events: none;
+      position: absolute;
+      top: -15px;
+      left: -20px;
+      transform: rotate(-90deg);
+    }
+    .titleContainer {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      .title {
+        font-weight: 300;
+        font-size: 30px;
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      .tags {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+
+        .tag {
+          font-size: 14px;
+        }
+      }
+    }
+    .dates {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 5px;
+      .date {
+        font-size: 16px;
+      }
+    }
+  }
+  .textContainer {
+    background: url("../../assets/images/note.jpg") no-repeat center center;
+    background-size: cover;
+    border-radius: 0 0 15px 15px;
+    .text {
+      padding: 20px 30px 20px 30px;
+      font-size: 18px;
+      line-height: 2.15;
+    }
+  }
+}
