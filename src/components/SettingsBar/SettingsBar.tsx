@@ -1,6 +1,8 @@
+"use client";
+
 import { IDiaryNote } from "@/models/IDiaryNote";
 import classes from "./SettingsBar.module.scss";
-import { FC } from "react";
+import { FC, useState } from "react";
 import filterDiaryByTitle from "@/actions/filterDiaryByTitle";
 import Calendar from "../Calendar/Calendar";
 
@@ -10,6 +12,8 @@ interface ISettingsBarProps {
 
 const SettingsBar: FC<ISettingsBarProps> = ({ setNotes }) => {
   let searchTimeout: NodeJS.Timeout | null = null;
+  const [firstSelectedDay, setFirstSelectedDay] = useState<Date | null>(null);
+  const [secondSelectedDay, setSecondSelectedDay] = useState<Date | null>(null);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (searchTimeout) {
@@ -34,7 +38,13 @@ const SettingsBar: FC<ISettingsBarProps> = ({ setNotes }) => {
         placeholder="Search..."
         onChange={handleSearch}
       />
-      <Calendar className={classes.calendar} />
+      <Calendar
+        className={classes.calendar}
+        firstSelectedDay={firstSelectedDay}
+        secondSelectedDay={secondSelectedDay}
+        setFirstSelectedDay={setFirstSelectedDay}
+        setSecondSelectedDay={setSecondSelectedDay}
+      />
     </div>
   );
 };
