@@ -17,6 +17,7 @@
   }
   .calendarContainer {
     position: absolute;
+    width: 325px;
     top: 50px;
     padding: 20px;
     border-radius: 15px;
@@ -24,9 +25,9 @@
     box-shadow: 0 0 10px $carnationPinkColor;
     background-color: white;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 40px);
+    grid-template-rows: repeat(8, 40px);
     grid-auto-flow: dense;
-    gap: 10px;
 
     .monthSelect {
       grid-column: 1 / -1;
@@ -50,8 +51,47 @@
     }
     .weekDay {
       font-size: 20px;
-      &::first-letter {
-        text-transform: uppercase;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .day {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      &.between {
+        border-radius: 0% !important;
+        background-color: $blueColor;
+        color: $lightBlueColor;
+      }
+      &.today {
+        background-color: $carnationPinkColor;
+        border-radius: 50%;
+        color: $lightBlueColor;
+      }
+      &.selectedLeft {
+        border-radius: 50% 0 0 50% !important;
+        background-color: $blueColor;
+        color: $lightBlueColor;
+      }
+      &.selectedRight {
+        border-radius: 0 50% 50% 0 !important;
+        background-color: $blueColor;
+        color: $lightBlueColor;
+      }
+      &.selected {
+        background-color: $blueColor;
+        border-radius: 50%;
+        color: $lightBlueColor;
+      }
+      &.selectedBoth {
+        background-color: $blueColor;
+        border-radius: 50%;
+        color: $lightBlueColor;
+        border: 1px solid $carnationPinkColor;
+        box-shadow: 0 0 10px $carnationPinkColor;
       }
     }
   }
