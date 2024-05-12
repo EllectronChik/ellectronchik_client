@@ -13,7 +13,7 @@ import { cookies } from "next/headers";
 import decryptText from "./decryptText";
 
 interface IDiaryData {
-  findNotesByTitle: IDiaryNote[];
+  findNotes: IDiaryNote[];
 }
 
 const httpLink = new HttpLink({
@@ -38,8 +38,24 @@ const client = new ApolloClient({
 });
 
 const query = gql`
-  query FindNotesByTitle($decryptedTitle: String!) {
-    findNotesByTitle(title: $decryptedTitle) {
+  query FindNotes(
+    $decryptedTitle: String
+    $page: Float
+    $limit: Float
+    $direction: Float
+    $startDate: DateTime
+    $endDate: DateTime
+    $tags: [String!]
+  ) {
+    findNotes(
+      decryptedTitle: $decryptedTitle
+      page: $page
+      limit: $limit
+      direction: $direction
+      startDate: $startDate
+      endDate: $endDate
+      tags: $tags
+    ) {
       _id
       encryptedTitle
       encryptedText
@@ -51,12 +67,26 @@ const query = gql`
   }
 `;
 
-export default async function filterDiaryByTitle(title: string) {
+export default async function filterDiary(
+  title?: string,
+  page?: number,
+  limit?: number,
+  direction?: number,
+  startDate?: Date,
+  endDate?: Date,
+  tags?: string[]
+) {
   const { data, error } = await client
     .query<IDiaryData>({
       query,
       variables: {
-        decryptedTitle: title,
+        decryptedTitle: title || null,
+        page: page || null,
+        limit: limit || null,
+        direction: direction || null,
+        startDate: startDate || null,
+        endDate: endDate || null,
+        tags: tags || null,
       },
       context: {
         headers: {
@@ -71,7 +101,7 @@ export default async function filterDiaryByTitle(title: string) {
     })
     .then(async (res) => {
       const decryptedNotes: IDiaryNote[] = await Promise.all(
-        res.data?.findNotesByTitle?.map(async (note) => {
+        res.data?.findNotes?.map(async (note) => {
           let decryptedData;
           try {
             decryptedData = await decryptText(
