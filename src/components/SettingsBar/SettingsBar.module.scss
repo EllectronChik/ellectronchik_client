@@ -24,5 +24,27 @@
   .calendar {
     height: 48px;
     width: 48px;
+    fill: inherit;
+  }
+
+  .close {
+    color: inherit;
+    cursor: pointer;
+    font-size: 60px;
+    margin-right: 5px;
+    border: none;
+    background: none;
+  }
+
+  .createNoteButton {
+    cursor: pointer;
+    margin-left: auto;
+    border: none;
+    background: none;
+
+    .createNote {
+      width: 40px;
+      height: 40px;
+    }
   }
 }
