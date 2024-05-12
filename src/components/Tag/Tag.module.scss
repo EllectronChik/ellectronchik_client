@@ -5,6 +5,26 @@
   padding: 5px 10px;
   border: 1px solid;
   border-radius: 25px;
+  position: relative;
+
+  &.clickable {
+    cursor: pointer;
+
+    &::after {
+      content: "×";
+      color: gray;
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
 
   .color {
     width: 20px;
