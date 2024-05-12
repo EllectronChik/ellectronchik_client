@@ -38,6 +38,7 @@ const Calendar: FC<ICalendarProps> = ({
   ...props
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMonthSelect, setIsMonthSelect] = useState(false);
   const [showedDate, setShowedDate] = useState<Date>(() => {
     const date = new Date();
     date.setDate(1);
@@ -91,6 +92,21 @@ const Calendar: FC<ICalendarProps> = ({
     }
   };
 
+  const changeMonthSelection = () => {
+    setIsMonthSelect(!isMonthSelect);
+    setIsExpanded(!isExpanded);
+  };
+
+  const changeCalendarOpen = () => {
+    if (isExpanded || isMonthSelect) {
+      setIsExpanded(false);
+      setIsMonthSelect(false);
+    } else {
+      setIsExpanded(!isExpanded);
+      setIsMonthSelect(false);
+    }
+  };
+
   useEffect(() => {
     calendarRef &&
       calendarRef.current?.addEventListener(
@@ -109,10 +125,7 @@ const Calendar: FC<ICalendarProps> = ({
 
   return (
     <div {...props} className={`${props.className} ${classes.container}`}>
-      <button
-        className={classes.calendarIcon}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
+      <button className={classes.calendarIcon} onClick={changeCalendarOpen}>
         <Image src={CalendarSvg} className={classes.calendar} alt="calendar" />
       </button>
 
@@ -125,7 +138,10 @@ const Calendar: FC<ICalendarProps> = ({
             >
               <h3>&lt;</h3>
             </button>
-            <button className={classes.monthButton}>
+            <button
+              onClick={changeMonthSelection}
+              className={classes.monthButton}
+            >
               <h3 className={classes.month}>
                 {showedDate.toLocaleString("en", { month: "long" })}
               </h3>
@@ -242,39 +258,72 @@ const Calendar: FC<ICalendarProps> = ({
                 }${
                   (firstSelectedDay &&
                     secondSelectedDay &&
-                    firstSelectedDay.getDate() < index + 1 &&
-                    secondSelectedDay.getDate() > index + 1 &&
-                    firstSelectedDay.getMonth() === showedDate.getMonth() &&
-                    secondSelectedDay.getMonth() === showedDate.getMonth() &&
-                    secondSelectedDay.getFullYear() ===
-                      showedDate.getFullYear()) ||
-                  (firstSelectedDay &&
-                    secondSelectedDay &&
-                    firstSelectedDay.getMonth() < showedDate.getMonth() &&
-                    firstSelectedDay.getFullYear() <=
-                      showedDate.getFullYear() &&
-                    secondSelectedDay.getMonth() === showedDate.getMonth() &&
-                    secondSelectedDay.getFullYear() ===
-                      showedDate.getFullYear() &&
-                    secondSelectedDay.getDate() > index + 1) ||
-                  (firstSelectedDay &&
-                    secondSelectedDay &&
-                    firstSelectedDay.getMonth() < showedDate.getMonth() &&
-                    firstSelectedDay.getFullYear() <=
-                      showedDate.getFullYear() &&
-                    secondSelectedDay.getMonth() === showedDate.getMonth() &&
-                    secondSelectedDay.getFullYear() ===
-                      showedDate.getFullYear() &&
-                    secondSelectedDay.getDate() > index + 1) ||
-                  (firstSelectedDay &&
-                    secondSelectedDay &&
+                    firstSelectedDay.getMonth() ===
+                      secondSelectedDay.getMonth() &&
+                    firstSelectedDay.getFullYear() ===
+                      secondSelectedDay.getFullYear() &&
                     firstSelectedDay.getMonth() === showedDate.getMonth() &&
                     firstSelectedDay.getFullYear() ===
                       showedDate.getFullYear() &&
-                    secondSelectedDay.getMonth() > showedDate.getMonth() &&
-                    secondSelectedDay.getFullYear() >=
+                    firstSelectedDay.getDate() < index + 1 &&
+                    secondSelectedDay.getDate() > index + 1) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getMonth() < showedDate.getMonth() &&
+                    secondSelectedDay.getMonth() === showedDate.getMonth() &&
+                    showedDate.getFullYear() ===
+                      secondSelectedDay.getFullYear() &&
+                    secondSelectedDay.getDate() > index + 1) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() < showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() >
+                      showedDate.getFullYear()) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() < showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() ===
                       showedDate.getFullYear() &&
-                    firstSelectedDay.getDate() < index + 1)
+                    secondSelectedDay.getMonth() > showedDate.getMonth()) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() >
+                      showedDate.getFullYear() &&
+                    firstSelectedDay.getMonth() < showedDate.getMonth()) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() < showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    secondSelectedDay.getMonth() === showedDate.getMonth() &&
+                    secondSelectedDay.getDate() > index + 1) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() >
+                      showedDate.getFullYear() &&
+                    firstSelectedDay.getMonth() === showedDate.getMonth() &&
+                    firstSelectedDay.getDate() < index + 1) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    firstSelectedDay.getMonth() === showedDate.getMonth() &&
+                    secondSelectedDay.getMonth() > showedDate.getMonth() &&
+                    firstSelectedDay.getDate() < index + 1) ||
+                  (firstSelectedDay &&
+                    secondSelectedDay &&
+                    firstSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    secondSelectedDay.getFullYear() ===
+                      showedDate.getFullYear() &&
+                    firstSelectedDay.getMonth() < showedDate.getMonth() &&
+                    secondSelectedDay.getMonth() > showedDate.getMonth())
                     ? " " + classes.between
                     : ""
                 }`}
@@ -284,6 +333,68 @@ const Calendar: FC<ICalendarProps> = ({
               >
                 {index + 1}
               </p>
+            );
+          })}
+        </div>
+      )}
+      {isMonthSelect && (
+        <div ref={calendarRef} className={classes.calendarContainer}>
+          <div className={classes.monthSelectionHeader}>
+            <button
+              onClick={() => changeMonth(-12)}
+              className={classes.monthButton}
+            >
+              &lt;
+            </button>
+            <div className={classes.monthContainer}>
+              <p className={classes.month}>Select month</p>
+              <button
+                onClick={changeMonthSelection}
+                className={classes.monthButton}
+              >
+                &times;
+              </button>
+            </div>
+            <button
+              onClick={() => changeMonth(12)}
+              className={classes.monthButton}
+            >
+              &gt;
+            </button>
+          </div>
+          {Array.from({ length: 7 }, (_, index) => {
+            const monthOffset = index - 3;
+            const month = new Date(showedDate).setMonth(
+              showedDate.getMonth() + monthOffset
+            );
+            return (
+              <div
+                key={index}
+                className={`${classes.weekDay} ${
+                  new Date().getMonth() === new Date(month).getMonth() &&
+                  new Date().getFullYear() === new Date(month).getFullYear()
+                    ? " " + classes.today
+                    : ""
+                } ${
+                  new Date(month).getMonth() ===
+                    new Date(showedDate).getMonth() &&
+                  new Date(month).getFullYear() ===
+                    new Date(showedDate).getFullYear()
+                    ? " " + classes.selected
+                    : ""
+                }`}
+                style={{
+                  gridColumn: `1 / -1`,
+                }}
+                onClick={() => {
+                  changeMonth(monthOffset);
+                  changeMonthSelection();
+                }}
+              >
+                {`${new Date(month).toLocaleString("en", {
+                  month: "short",
+                })}, ${new Date(month).getFullYear()}`}
+              </div>
             );
           })}
         </div>
