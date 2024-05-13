@@ -15,7 +15,7 @@ const Header = () => {
     if (!cookies.get("logedIn")) {
       router.push("/login");
     }
-  }, []);
+  }, [cookies, router]);
 
   return (
     <header className={classes.header}>
