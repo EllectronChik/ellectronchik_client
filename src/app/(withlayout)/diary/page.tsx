@@ -91,7 +91,7 @@ const Diary = async ({
           const decryptedNote: IDiaryNote = {
             ...note,
             encryptedTitle: decryptedData.title,
-            encryptedText: decryptedData.text,
+            encryptedText: decryptedData.text.slice(0, 250),
           };
 
           return decryptedNote;
