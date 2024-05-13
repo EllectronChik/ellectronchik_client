@@ -5,6 +5,7 @@ import {
   FC,
   HTMLProps,
   SetStateAction,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -55,21 +56,12 @@ const Calendar: FC<ICalendarProps> = ({
     getMonthDays(showedDate.getMonth() + 1, showedDate.getFullYear())
   );
 
-  const changeMonth = (value: number) => {
+  const changeMonth = useCallback((value: number) => {
     const newDate = new Date(showedDate);
     newDate.setMonth(newDate.getMonth() + value);
     setShowedDate(newDate);
     setDays(getMonthDays(newDate.getMonth() + 1, newDate.getFullYear()));
-  };
-
-  const onCalendarWheel = (event: WheelEvent) => {
-    event.preventDefault();
-    if (event.deltaY > 0) {
-      changeMonth(1);
-    } else {
-      changeMonth(-1);
-    }
-  };
+  }, [showedDate]);
 
   const selectDate = (date: Date) => {
     if (!firstSelectedDay) {
@@ -108,7 +100,16 @@ const Calendar: FC<ICalendarProps> = ({
   };
 
   useEffect(() => {
-    calendarRef &&
+    const onCalendarWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      if (event.deltaY > 0) {
+        changeMonth(1);
+      } else {
+        changeMonth(-1);
+      }
+    };
+    let calendarRefValue = null;
+    if (calendarRef) {
       calendarRef.current?.addEventListener(
         "wheel",
         (e) => onCalendarWheel(e),
@@ -116,12 +117,14 @@ const Calendar: FC<ICalendarProps> = ({
           passive: false,
         }
       );
+      calendarRefValue = calendarRef.current;
+    }
     return () => {
-      calendarRef?.current?.removeEventListener("wheel", (e) =>
+      calendarRefValue?.removeEventListener("wheel", (e) =>
         onCalendarWheel(e)
       );
     };
-  }, [calendarRef, isExpanded, showedDate, days]);
+  }, [calendarRef, isExpanded, showedDate, days, changeMonth]);
 
   return (
     <div {...props} className={`${props.className} ${classes.container}`}>
