@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FC, HTMLProps, useRef, useState } from "react";
+import { ChangeEvent, FC, HTMLProps, useEffect, useRef, useState } from "react";
 import classes from "./CreateNoteCard.module.scss";
 import ITag from "@/models/ITag";
 import Tag from "../Tag/Tag";
@@ -8,10 +8,12 @@ import CreateTag from "../CreateTag/CreateTag";
 import { gql, useMutation } from "@apollo/client";
 import * as crypto from "crypto";
 import encryptText from "@/actions/encryptText";
+import { IDiaryNoteDecrypted } from "@/models/IDiaryNoteDecrypted";
 
 interface ICreateNoteCardProps extends HTMLProps<HTMLDivElement> {
   tags: ITag[];
   selectedTags?: ITag[];
+  note?: IDiaryNoteDecrypted;
 }
 
 interface ICreateNoteCardData {
@@ -45,6 +47,7 @@ interface IUpdateNoteVariables {
 
 const CreateNoteCard: FC<ICreateNoteCardProps> = ({
   tags,
+  note,
   selectedTags,
   ...props
 }) => {
@@ -61,6 +64,18 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
   const [noteId, setNoteId] = useState<string>("");
 
   const selectRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    if (note) {
+      setTitle(note.title);
+      setText(note.text);
+      setSelectedTagsData(tags.filter((tag) => note.tags.includes(tag._id)));
+      setNoteIv(note.iv);
+      setNoteId(note._id);
+      console.log('note', note._id);
+      
+    }
+  }, []);
 
   const createNoteGql = gql`
     mutation CreateDiaryNote(
