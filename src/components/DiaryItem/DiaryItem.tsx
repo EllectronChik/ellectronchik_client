@@ -17,11 +17,18 @@ const DiaryItem: FC<IDiaryItemProps> = ({ note, tags, ...props }) => {
   return (
     <div className={classes.container} {...props}>
       <div className={classes.header}>
-        <Image src={paperClip} width={48} height={48} alt="paper-clip" className={classes.paperClip} draggable={false} />
+        <Image
+          src={paperClip}
+          width={48}
+          height={48}
+          alt="paper-clip"
+          className={classes.paperClip}
+          draggable={false}
+        />
         <div className={classes.titleContainer}>
-          <h2 className={classes.title}>{note.encryptedTitle}</h2>
+          <h2 className={classes.title}>{note.encryptedTitle.slice(0, 15)}</h2>
           <div className={classes.tags}>
-            {note.tags.map((tag) => (
+            {note.tags.slice(0, 2).map((tag) => (
               <Tag
                 key={tag}
                 name={tags.find((t) => t._id === tag)?.name || "Unknown"}
@@ -29,6 +36,33 @@ const DiaryItem: FC<IDiaryItemProps> = ({ note, tags, ...props }) => {
                 className={classes.tag}
               />
             ))}
+            {note.tags.length > 3 && (
+              <Tag
+                name={`And ${note.tags.length - 2} more`}
+                color="#000"
+                className={classes.tag}
+                style={{ fontStyle: "italic" }}
+              />
+            )}
+            {note.tags.length === 0 && (
+              <Tag
+                name="No tags"
+                color="#000"
+                className={classes.tag}
+                style={{ fontStyle: "italic" }}
+              />
+            )}
+            {note.tags.length === 3 && (
+              <Tag
+                name={
+                  tags.find((t) => t._id === note.tags[2])?.name || "Unknown"
+                }
+                color={
+                  tags.find((t) => t._id === note.tags[2])?.color || "#000"
+                }
+                className={classes.tag}
+              />
+            )}
           </div>
         </div>
         <div className={classes.dates}>
