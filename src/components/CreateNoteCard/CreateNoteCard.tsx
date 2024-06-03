@@ -9,6 +9,7 @@ import { gql, useMutation } from "@apollo/client";
 import * as crypto from "crypto";
 import encryptText from "@/actions/encryptText";
 import { IDiaryNoteDecrypted } from "@/models/IDiaryNoteDecrypted";
+import revalidateDiary from "@/actions/revalidateDiary";
 
 interface ICreateNoteCardProps extends HTMLProps<HTMLDivElement> {
   tags: ITag[];
@@ -72,10 +73,8 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
       setSelectedTagsData(tags.filter((tag) => note.tags.includes(tag._id)));
       setNoteIv(note.iv);
       setNoteId(note._id);
-      console.log('note', note._id);
-      
     }
-  }, []);
+  }, [note, tags]);
 
   const createNoteGql = gql`
     mutation CreateDiaryNote(
@@ -149,9 +148,11 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
         tags: uTags || selectedTagsData.map((tag) => tag._id),
         iv: iv,
       },
-      onCompleted: (data) => {
+      onCompleted: async (data) => {
         setNoteIv(data.createDiaryNote.iv);
         setNoteId(data.createDiaryNote._id);
+
+        await revalidateDiary();
       },
     });
   };
@@ -174,6 +175,9 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
         tags: uTags || selectedTagsData.map((tag) => tag._id),
         iv: noteIv,
         id: noteId,
+      },
+      onCompleted: async () => {
+        await revalidateDiary();
       },
     });
   };
