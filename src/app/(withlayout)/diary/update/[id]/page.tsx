@@ -67,7 +67,7 @@ const UpdateNote = async ({ params }: { params: { id: string } }) => {
         ...res,
         data: {
           ...res.data,
-          findNoteById: { ...res.data.findNoteById, ...decrypted },
+          findNoteById,
         },
       };
     });
