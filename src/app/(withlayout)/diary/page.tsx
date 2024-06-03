@@ -68,6 +68,11 @@ const Diary = async ({
               .map(({ name, value }) => `${name}=${value}`)
               .join(";") || "",
         },
+        fetchOptions: {
+          next: {
+            tags: ["diary"],
+          },
+        },
       },
       errorPolicy: "all",
     })
