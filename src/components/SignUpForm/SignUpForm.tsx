@@ -7,6 +7,7 @@ import eye from "@/assets/images/eye.svg";
 import eyeClosed from "@/assets/images/eye-closed.svg";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
+import generateHash from "@/actions/generateHash";
 
 
 interface RegisterData {
@@ -55,9 +56,12 @@ const SignUpForm = () => {
         setErrors(message);
       }
     },
-    onCompleted: (data) => {
+    onCompleted: async (data) => {
       if (data?.register) {
+        const hash = await generateHash(password);
+        if (hash) {
         router.push("/diary");
+        }
       }
     },
   });
