@@ -6,10 +6,16 @@ import { gql } from "@apollo/client";
 import { cookies } from "next/headers";
 import classes from "./diary.module.scss";
 import ITag from "@/models/ITag";
+import { Metadata } from "next";
 
 interface IDiaryData {
   findUserNotesPaginated: IDiaryNote[];
   findTagsByUser: ITag[];
+}
+
+export const metadata: Metadata = {
+  title: "EllectronChik's Diary",
+  description: "Page with diary notes",
 }
 
 const Diary = async ({
@@ -31,6 +37,10 @@ const Diary = async ({
         _id
         encryptedTitle
         encryptedText
+        diaryNoteMedia {
+          mediaPath
+          mediaIVHex
+        }
         createdAt
         updatedAt
         tags
