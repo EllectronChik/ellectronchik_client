@@ -5,6 +5,7 @@ import classes from "./DiaryItem.module.scss";
 import Tag from "../Tag/Tag";
 import Image from "next/image";
 import paperClip from "@/assets/images/paper-clip.svg";
+import LoadImage from "../LoadImage/loadImage";
 
 interface IDiaryItemProps extends HTMLProps<HTMLDivElement> {
   note: IDiaryNote;
@@ -79,7 +80,27 @@ const DiaryItem: FC<IDiaryItemProps> = ({ note, tags, ...props }) => {
         </div>
       </div>
       <div className={classes.textContainer}>
-        <div className={classes.text}>{notePart}...</div>
+        <div className={classes.text}>
+          {notePart}
+          {note.encryptedText.length >= 250 && "..."}
+        </div>
+        {note.encryptedText.length > 0 && note.diaryNoteMedia.length > 0 && (
+          <p className={classes.more}>
+            Note contains {note.diaryNoteMedia.length}{" "}
+            {note.diaryNoteMedia.length === 1 ? "image" : "images"}
+          </p>
+        )}
+        {note.encryptedText.length === 0 &&
+          note.diaryNoteMedia.length === 0 && (
+            <p className={classes.more}>Note is empty</p>
+          )}
+        {note.encryptedText.length === 0 && note.diaryNoteMedia.length > 0 && (
+          <div className={classes.images}>
+            {note.diaryNoteMedia.map((media) => (
+              <LoadImage key={media.mediaIVHex} media={media} className={classes.image} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
