@@ -4,9 +4,15 @@ import { gql } from "@apollo/client";
 import { cookies } from "next/headers";
 import ITag from "@/models/ITag";
 import CreateNoteCard from "@/components/CreateNoteCard/CreateNoteCard";
+import { Metadata } from "next";
 
 interface IDiaryData {
   findTagsByUser: ITag[];
+}
+
+export const metadata: Metadata = {
+  title: "Create Note",
+  description: "Create new diary note page",
 }
 
 const CreateNote = async () => {
