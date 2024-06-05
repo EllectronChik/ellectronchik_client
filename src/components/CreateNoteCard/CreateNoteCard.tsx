@@ -10,6 +10,7 @@ import * as crypto from "crypto";
 import encryptText from "@/actions/encryptText";
 import { IDiaryNoteDecrypted } from "@/models/IDiaryNoteDecrypted";
 import revalidateDiary from "@/actions/revalidateDiary";
+import ImageInput from "../ImageInput/ImageInput";
 
 interface ICreateNoteCardProps extends HTMLProps<HTMLDivElement> {
   tags: ITag[];
@@ -278,6 +279,7 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
           />
         ))}
       </div>
+      <ImageInput note={note} />
       <div className={classes.tagsSelectorContainer}>
         <select
           onChange={handleSelectTags}
@@ -303,12 +305,11 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
         </select>
         <button
           className={classes.addTagButton}
-          onClick={() => setIsAddingTag(true)}
+          onClick={() => setIsAddingTag(!isAddingTag)}
         >
-          Add tag
+          {isAddingTag ? "Cancel" : "Add Tag"}
         </button>
       </div>
-
       {isAddingTag && (
         <CreateTag
           className={classes.createTag}
