@@ -1,0 +1,52 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  .input {
+    display: none;
+  }
+  .label {
+    cursor: pointer;
+    font-size: 20px;
+    .error {
+      color: $carnationPinkColor;
+    }
+    .success {
+      color: $lightBlueColor;
+    }
+  }
+  .images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    background-color: $grayColor;
+    min-height: 150px;
+    border-radius: 15px;
+    border: 1px solid $blueColor;
+    padding: 20px;
+
+    .image {
+      width: 125px;
+      height: 125px;
+      border-radius: 15px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      &:hover {
+        color: $carnationPinkColor;
+      }
+    }
+  }
+}
