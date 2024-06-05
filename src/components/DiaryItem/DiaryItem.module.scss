@@ -69,9 +69,33 @@
     background-size: cover;
     border-radius: 0 0 15px 15px;
     .text {
-      padding: 20px 30px 20px 30px;
+      padding: 20px 30px 5px 30px;
       font-size: 18px;
       line-height: 2.15;
+    }
+    .more {
+      padding: 0 30px 20px 30px;
+      font-size: 14px;
+      color: $blueColor;
+      cursor: pointer;
+      font-style: italic;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      min-height: 150px;
+      padding: 20px;
+      .image {
+        width: 150px;
+        height: 150px;
+        border-radius: 15px;
+        object-fit: cover;
+      }
     }
   }
 }
