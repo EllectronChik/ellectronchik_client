@@ -21,3 +21,13 @@ export const oxta = localFont({
     },
   ],
 });
+
+
+export const hotink = localFont({
+  src: [
+    {
+      path: "../assets/fonts/hotink/HotInk.woff2",
+      style: "normal",
+    },
+  ],
+});
