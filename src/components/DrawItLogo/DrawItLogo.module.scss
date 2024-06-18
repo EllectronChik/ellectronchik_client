@@ -1,0 +1,14 @@
+@import "@/variables.scss";
+
+.title {
+  user-select: none;
+  cursor: default;
+  font-size: 120px;
+  font-weight: 300;
+
+  .letter {
+    &.colored {
+      color: $carnationPinkColor;
+    }
+  }
+}
