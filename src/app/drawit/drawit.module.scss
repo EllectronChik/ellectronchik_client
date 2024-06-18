@@ -1,0 +1,16 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("../../assets/images/drawit-bg.webp") no-repeat center center;
+  background-size: cover;
+
+  .error {
+    font-size: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    color: red;
+  }
+}
