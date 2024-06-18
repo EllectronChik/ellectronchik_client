@@ -3,11 +3,11 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  gql,
 } from "@apollo/client";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { setContext } from "@apollo/client/link/context";
+import { revalidateTokenQuery } from "@/queries/revalidateTokenQuery";
 
 interface RevalidateData {
   revalidateToken: {
@@ -47,19 +47,10 @@ const client = new ApolloClient({
   },
 });
 
-const query = gql`
-  query {
-    revalidateToken {
-      accessToken
-      refreshToken
-    }
-  }
-`;
-
 export async function revalidateMiddleware(request: NextRequest) {
   try {
     const { data } = await client.query<RevalidateData>({
-      query,
+      query: revalidateTokenQuery,
       context: {
         headers: {
           cookie: request.headers.get("cookie"),
