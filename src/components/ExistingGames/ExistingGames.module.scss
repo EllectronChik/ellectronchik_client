@@ -1,0 +1,54 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  width: 350px;
+  height: 450px;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid $blueColor;
+  border-radius: 15px;
+  user-select: none;
+  transition: height 0.5s ease;
+
+  &.expanded {
+    height: 550px;
+
+    &.extraExpanded {
+      height: 665px;
+    }
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .games {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 95%;
+    padding: 10px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $blueColor;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: $carnationPinkColor;
+    }
+  }
+}
