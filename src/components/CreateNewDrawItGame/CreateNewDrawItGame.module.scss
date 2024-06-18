@@ -1,0 +1,180 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  gap: 13px;
+  border: 1px solid $blueColor;
+  border-radius: 15px;
+  padding: 20px 30px;
+  width: 350px;
+  height: 450px;
+  transition: height 0.5s ease;
+  overflow: hidden;
+
+  &.expanded {
+    height: 550px;
+
+    &.extraExpanded {
+      height: 665px;
+    }
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .inputBox {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .label {
+    font-size: 16px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    .info {
+      cursor: pointer;
+    }
+    .tooltip {
+      width: 300px;
+      border-radius: 15px;
+      padding: 10px;
+    }
+  }
+
+  .columnLabel {
+    @extend .label;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input {
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid $blueColor;
+    text-align: right;
+    width: 60px;
+
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $blueColor;
+    }
+  }
+
+  .hidenInput {
+    display: none;
+  }
+
+  .fileField {
+    width: 100%;
+    height: 75px;
+    border-radius: 15px;
+    border: 1px solid $blueColor;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid $carnationPinkColor;
+      box-shadow: 0 0 10px $carnationPinkColor;
+    }
+  }
+
+  .textarea {
+    border: 1px solid $carnationPinkColor;
+    border-radius: 15px 0 0 15px;
+    font-size: 16px;
+    padding: 10px;
+    resize: none;
+    width: 100%;
+    height: 75px;
+    margin-top: 5px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px 0 0 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $blueColor;
+      border-radius: 5px 0 0 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: $carnationPinkColor;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 10px $carnationPinkColor;
+    }
+  }
+
+  .selection {
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-bottom: 1px solid $blueColor;
+    background-color: white;
+    width: 150px;
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $blueColor;
+    }
+
+    .option {
+      text-align: center;
+    }
+  }
+
+  .radioBox {
+    display: flex;
+    flex-direction: column;
+
+    .radio {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .columnInputBox {
+    display: flex;
+    flex-direction: column;
+    .selection {
+      width: 100%;
+    }
+    .input {
+      width: 100%;
+      text-align: left;
+      padding: 2px;
+    }
+  }
+
+  .buttonBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    width: 100%;
+    .button {
+      font-size: 16px;
+      border: 1px solid $blueColor;
+      border-radius: 15px;
+      padding: 10px 20px;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0 0 10px $carnationPinkColor;
+      }
+    }
+  }
+}
