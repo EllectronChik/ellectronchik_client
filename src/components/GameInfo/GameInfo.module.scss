@@ -1,0 +1,12 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $carnationPinkColor;
+  border-radius: 15px;
+  padding: 10px 20px;
+  box-shadow: 0 0 10px $carnationPinkColor;
+  width: 95%;
+  cursor: pointer;
+}
