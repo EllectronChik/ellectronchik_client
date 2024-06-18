@@ -1,0 +1,28 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: 25px;
+  border-radius: 15px;
+  border: 1px solid $carnationPinkColor;
+  padding-left: 3px;
+  background-color: $grayColor;
+  transition: background-color 0.3s ease;
+
+  cursor: pointer;
+  .switcher {
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    background-color: $carnationPinkColor;
+    transition: transform 0.3s ease;
+  }
+  &.switcherOn {
+    background-color: $blueColor;
+    .switcher {
+      transform: translateX(160%);
+    }
+  }
+}
