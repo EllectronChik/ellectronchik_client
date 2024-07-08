@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.scss";
+import  "normalize.css/normalize.css";
 import { ApolloWrapper } from "@/lib/graphql/apollo-provider";
 import { nunito } from "@/lib/fonts";
 
