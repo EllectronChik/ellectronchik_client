@@ -5,16 +5,17 @@ import classes from "./CreateDrawITPlayer.module.scss";
 import Image from "next/image";
 import editImg from "@/assets/images/edit.svg";
 import SelectDrawItAvatar from "../SelectDrawItAvatar/SelectDrawItAvatar";
+import setCookie from "@/lib/client/setCookie";
 
 const avatars = Array.from({ length: 26 }, (_, i) =>
   require(`@/assets/images/drawit/avatars/${i}.svg`)
 );
 
 interface ICreateDrawITPlayerProps extends HTMLProps<HTMLDivElement> {
-  playerName: string;
-  setPlayerName: Dispatch<SetStateAction<string>>;
-  playerAvatarId: number;
-  setPlayerAvatarId: Dispatch<SetStateAction<number>>;
+  playerName?: string;
+  setPlayerName?: Dispatch<SetStateAction<string>>;
+  playerAvatarId?: number;
+  setPlayerAvatarId?: Dispatch<SetStateAction<number>>;
 }
 
 const CreateDrawITPlayer: FC<ICreateDrawITPlayerProps> = ({
@@ -25,13 +26,26 @@ const CreateDrawITPlayer: FC<ICreateDrawITPlayerProps> = ({
   ...props
 }) => {
   const [isSelectingAvatar, setIsSelectingAvatar] = useState(false);
+  const [selectedAvatarId, setSelectedAvatarId] = useState(0);
 
   const handlePlayerNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPlayerName(event.target.value);
+    if (setPlayerName) {
+      setPlayerName(event.target.value);
+    }
     if (typeof document !== "undefined") {
-      document.cookie = `playerName=${event.target.value};`;
+      setCookie("playerName", event.target.value, 1000 * 24 * 60 * 60 * 31);
+    }
+  };
+
+  const handlePlayerAvatarChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (setPlayerAvatarId) {
+      setPlayerAvatarId(parseInt(event.target.value));
+    } else {
+      setSelectedAvatarId(parseInt(event.target.value));
     }
   };
 
@@ -47,7 +61,15 @@ const CreateDrawITPlayer: FC<ICreateDrawITPlayerProps> = ({
           draggable={false}
           priority={true}
           className={classes.avatar}
-          src={avatars[playerAvatarId]}
+          src={
+            avatars[
+              playerAvatarId
+                ? !isNaN(playerAvatarId)
+                  ? playerAvatarId
+                  : 0
+                : selectedAvatarId
+            ]
+          }
           width={48}
           height={48}
           alt="avatar"
@@ -68,7 +90,9 @@ const CreateDrawITPlayer: FC<ICreateDrawITPlayerProps> = ({
 
       {isSelectingAvatar && (
         <SelectDrawItAvatar
-          setAvatarId={setPlayerAvatarId}
+          setAvatarId={
+            setPlayerAvatarId ? setPlayerAvatarId : setSelectedAvatarId
+          }
           setIsOpen={setIsSelectingAvatar}
         />
       )}
@@ -88,7 +112,7 @@ const CreateDrawITPlayer: FC<ICreateDrawITPlayerProps> = ({
         name="playerAvatarId"
         value={playerAvatarId}
         className={classes.inputAvatar}
-        onChange={(e) => setPlayerAvatarId(+e.target.value)}
+        onChange={handlePlayerAvatarChange}
       />
     </div>
   );
