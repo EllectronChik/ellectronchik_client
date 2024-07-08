@@ -16,8 +16,12 @@ const GameInfo: FC<IProps> = ({ game, ...props }) => {
         classes.container
       }`}
     >
-      <h4 className={classes.title}>{game.package} - {game.language}</h4>
-      <p className={classes.players}>Players: 0 / {game.playersCount}</p>
+      <h4 className={classes.title}>
+        {game.package} - {game.language}
+      </h4>
+      <p className={classes.players}>
+        Players: {game.playersCount} / {game.maxPlayersCount}
+      </p>
       <p className={classes.points}>Points to win: {game.pointsToWin}</p>
     </div>
   );
