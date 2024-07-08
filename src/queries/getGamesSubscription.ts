@@ -7,6 +7,7 @@ export const getGamesSubscription = gql`
       language
       package
       playersCount
+      maxPlayersCount
       pointsToWin
     }
   }
