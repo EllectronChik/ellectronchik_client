@@ -1,0 +1,48 @@
+@import "@/variables.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  border: 1px solid $carnationPinkColor;
+  border-radius: 15px;
+  width: 100%;
+  box-shadow: 0 0 10px $carnationPinkColor;   
+  height: auto;
+  .textarea {
+    border: none;
+    border-radius: 15px 0 0 15px;
+    font-size: 16px;
+    padding: 10px;
+    resize: none;
+    min-height: 30px;
+    height: auto;
+    overflow-y: auto;
+    width: 90%;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $blueColor;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: $carnationPinkColor;
+    }
+
+
+  }
+  .sendButton {
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin: 0 10px;
+  }
+}
