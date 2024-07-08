@@ -5,12 +5,14 @@ import classes from "./CreateNoteCard.module.scss";
 import ITag from "@/models/ITag";
 import Tag from "../Tag/Tag";
 import CreateTag from "../CreateTag/CreateTag";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import * as crypto from "crypto";
 import encryptText from "@/actions/encryptText";
 import { IDiaryNoteDecrypted } from "@/models/IDiaryNoteDecrypted";
 import revalidateDiary from "@/actions/revalidateDiary";
 import ImageInput from "../ImageInput/ImageInput";
+import { createDiaryNoteMutation } from "@/queries/createDiaryNoteMutation";
+import { updateDiaryNoteMutation } from "@/queries/updateDiaryNoteMutation";
 
 interface ICreateNoteCardProps extends HTMLProps<HTMLDivElement> {
   tags: ITag[];
@@ -77,59 +79,15 @@ const CreateNoteCard: FC<ICreateNoteCardProps> = ({
     }
   }, [note, tags]);
 
-  const createNoteGql = gql`
-    mutation CreateDiaryNote(
-      $encryptedTitle: String!
-      $encryptedText: String!
-      $tags: [String!]
-      $iv: String!
-    ) {
-      createDiaryNote(
-        createNoteInput: {
-          encryptedTitle: $encryptedTitle
-          encryptedText: $encryptedText
-          tags: $tags
-          iv: $iv
-        }
-      ) {
-        _id
-        iv
-      }
-    }
-  `;
-
-  const updateNoteGql = gql`
-    mutation UpdateDiaryNote(
-      $encryptedTitle: String
-      $encryptedText: String
-      $tags: [String!]
-      $iv: String
-      $id: String!
-    ) {
-      updateDiaryNote(
-        updateNoteInput: {
-          encryptedTitle: $encryptedTitle
-          encryptedText: $encryptedText
-          tags: $tags
-          iv: $iv
-          id: $id
-        }
-      ) {
-        _id
-        iv
-      }
-    }
-  `;
-
   const [createNote] = useMutation<
     ICreateNoteCardData,
     ICreateNoteCardVariables
-  >(createNoteGql, {
+  >(createDiaryNoteMutation, {
     errorPolicy: "all",
   });
 
   const [updateNote] = useMutation<IUpdateNoteData, IUpdateNoteVariables>(
-    updateNoteGql,
+    updateDiaryNoteMutation,
     {
       errorPolicy: "all",
     }

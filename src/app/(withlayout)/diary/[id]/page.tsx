@@ -10,6 +10,7 @@ import Link from "next/link";
 import DeleteDiaryItem from "@/components/DeleteDiaryItem/DeleteDiaryItem";
 import { Metadata } from "next";
 import LoadImage from "@/components/LoadImage/loadImage";
+import { findNoteByIdQuery } from "@/queries/findNoteByIdQuery";
 
 interface IDiaryData {
   findNoteById: {
@@ -34,31 +35,9 @@ interface IVariables {
 }
 
 const fetchData = async (id: string) => {
-  const noteQuery = gql`
-    query FindNoteById($id: String!) {
-      findNoteById(id: $id) {
-        encryptedTitle
-        encryptedText
-        diaryNoteMedia {
-          mediaPath
-          mediaIVHex
-        }
-        createdAt
-        updatedAt
-        tags
-        iv
-        userId
-      }
-      findTagsByUser {
-        _id
-        name
-        color
-      }
-    }
-  `;
   const { data, loading, errors } = await getClient()
     .query<IDiaryData, IVariables>({
-      query: noteQuery,
+      query: findNoteByIdQuery,
       variables: {
         id: id,
       },
@@ -164,7 +143,13 @@ const DiaryNote = async ({ params }: { params: { id: string } }) => {
               <p>{data.findNotesById.text}</p>
               {data.findNotesById.diaryNoteMedia.length > 0 && (
                 <div className={classes.images}>
-                  {data.findNotesById.diaryNoteMedia.map((media) => <LoadImage key={media.mediaIVHex} media={media} className={classes.image} />)}
+                  {data.findNotesById.diaryNoteMedia.map((media) => (
+                    <LoadImage
+                      key={media.mediaIVHex}
+                      media={media}
+                      className={classes.image}
+                    />
+                  ))}
                 </div>
               )}
             </div>

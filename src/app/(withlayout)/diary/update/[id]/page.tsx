@@ -1,6 +1,5 @@
 import { getClient } from "@/lib/graphql/client";
 import classes from "./updatenote.module.scss";
-import { gql } from "@apollo/client";
 import { cookies } from "next/headers";
 import ITag from "@/models/ITag";
 import CreateNoteCard from "@/components/CreateNoteCard/CreateNoteCard";
@@ -8,6 +7,7 @@ import { IDiaryNote } from "@/models/IDiaryNote";
 import decryptText from "@/actions/decryptText";
 import { IDiaryNoteDecrypted } from "@/models/IDiaryNoteDecrypted";
 import { Metadata } from "next";
+import { findTagsByUserAndNoteByIdQuery } from "@/queries/findTagsByUserAndNoteByIdQuery";
 
 interface IDiaryData {
   findTagsByUser: ITag[];
@@ -15,34 +15,13 @@ interface IDiaryData {
 }
 
 const fetchData = async (id: string) => {
-  const GET_TAGS = gql`
-    query FindTagsByUser($id: String!) {
-      findTagsByUser {
-        _id
-        name
-        color
-      }
-      findNoteById(id: $id) {
-        encryptedTitle
-        encryptedText
-        diaryNoteMedia {
-          mediaPath
-          mediaIVHex
-        }
-        tags
-        iv
-        _id
-      }
-    }
-  `;
-
   const {
     data: tags,
     errors,
     loading,
   } = await getClient()
     .query<IDiaryData>({
-      query: GET_TAGS,
+      query: findTagsByUserAndNoteByIdQuery,
       variables: {
         id: id,
       },

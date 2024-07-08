@@ -5,9 +5,10 @@ import classes from "./SignInForm.module.scss";
 import Image from "next/image";
 import eye from "@/assets/images/eye.svg";
 import eyeClosed from "@/assets/images/eye-closed.svg";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import generateHash from "@/actions/generateHash";
 import { useRouter } from "next/navigation";
+import { loginMutation } from "@/queries/loginMutation";
 
 interface LoginData {
   login: boolean;
@@ -38,41 +39,35 @@ const SignInForm = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const LOGIN = gql`
-    mutation Login($name: String!, $password: String!) {
-      login(loginUserInput: { name: $name, password: $password })
+  const [login, { loading, error }] = useMutation<LoginData, LoginVariables>(
+    loginMutation,
+    {
+      errorPolicy: "all",
+      onError: (error) => {
+        if (error) {
+          let message: string[] = ["Something went wrong"];
+          try {
+            message = JSON.parse(error.message).flat();
+            message.forEach(
+              (err, i) =>
+                (message[i] = err.charAt(0).toUpperCase() + err.slice(1))
+            );
+          } catch (err) {
+            message = [error.message];
+          }
+          setErrors(message);
+        }
+      },
+      onCompleted: async (data) => {
+        if (data?.login) {
+          const hash = await generateHash(password);
+          if (hash) {
+            router.push("/diary");
+          }
+        }
+      },
     }
-  `;
-
-  const [login, { loading, error }] = useMutation<
-    LoginData,
-    LoginVariables
-  >(LOGIN, {
-    errorPolicy: "all",
-    onError: (error) => {
-      if (error) {
-        let message: string[] = ["Something went wrong"];
-        try {
-          message = JSON.parse(error.message).flat();
-          message.forEach(
-            (err, i) =>
-              (message[i] = err.charAt(0).toUpperCase() + err.slice(1))
-          );
-        } catch (err) {
-          message = [error.message];
-        }
-        setErrors(message);
-      }
-    },
-    onCompleted: async (data) => {
-      if (data?.login) {
-        const hash = await generateHash(password);
-        if (hash) {
-        router.push("/diary");
-        }
-      }
-    },
-  });
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

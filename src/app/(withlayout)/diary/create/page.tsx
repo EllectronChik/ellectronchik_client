@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import ITag from "@/models/ITag";
 import CreateNoteCard from "@/components/CreateNoteCard/CreateNoteCard";
 import { Metadata } from "next";
+import { findTagsByUserQuery } from "@/queries/findTagsByUserQuery";
 
 interface IDiaryData {
   findTagsByUser: ITag[];
@@ -13,21 +14,15 @@ interface IDiaryData {
 export const metadata: Metadata = {
   title: "Create Note",
   description: "Create new diary note page",
-}
+};
 
 const CreateNote = async () => {
-  const GET_TAGS = gql`
-    query FindTagsByUser {
-      findTagsByUser {
-        _id
-        name
-        color
-      }
-    }
-  `;
-
-  const { data: tags, loading, error } = await getClient().query<IDiaryData>({
-    query: GET_TAGS,
+  const {
+    data: tags,
+    loading,
+    error,
+  } = await getClient().query<IDiaryData>({
+    query: findTagsByUserQuery,
     context: {
       headers: {
         cookie:

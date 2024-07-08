@@ -11,6 +11,7 @@ import {
 } from "react";
 import classes from "./CreateTag.module.scss";
 import { gql, useMutation } from "@apollo/client";
+import { createTagMutation } from "@/queries/createTagMutation";
 
 interface ICreateTagProps extends HTMLProps<HTMLFormElement> {
   setTagsData: Dispatch<SetStateAction<ITag[]>>;
@@ -34,20 +35,10 @@ const CreateTag: FC<ICreateTagProps> = ({
   const [name, setName] = useState<string>("");
   const [color, setColor] = useState<string>("");
 
-  const createTagGql = gql`
-    mutation CreateTag($name: String!, $color: String!) {
-      createTag(createTagInput: { name: $name, color: $color }) {
-        _id
-        name
-        color
-      }
-    }
-  `;
-
   const [createTag, { error }] = useMutation<
     ICreateTagData,
     ICreateTagVariables
-  >(createTagGql, {
+  >(createTagMutation, {
     variables: {
       name,
       color,

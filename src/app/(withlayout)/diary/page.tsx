@@ -1,8 +1,8 @@
+import { findUserNotesPaginatedQuery } from "@/queries/findUserNotesPaginatedQuery";
 import decryptText from "@/actions/decryptText";
 import DiaryList from "@/components/DiaryList/DiaryList";
 import { getClient } from "@/lib/graphql/client";
 import { IDiaryNote } from "@/models/IDiaryNote";
-import { gql } from "@apollo/client";
 import { cookies } from "next/headers";
 import classes from "./diary.module.scss";
 import ITag from "@/models/ITag";
@@ -16,44 +16,13 @@ interface IDiaryData {
 export const metadata: Metadata = {
   title: "EllectronChik's Diary",
   description: "Page with diary notes",
-}
+};
 
 const Diary = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-  const NOTES_QUERY = gql`
-    query FindUserNotesPaginated(
-      $page: Float
-      $limit: Float
-      $direction: Float
-    ) {
-      findUserNotesPaginated(
-        page: $page
-        limit: $limit
-        direction: $direction
-      ) {
-        _id
-        encryptedTitle
-        encryptedText
-        diaryNoteMedia {
-          mediaPath
-          mediaIVHex
-        }
-        createdAt
-        updatedAt
-        tags
-        iv
-      }
-      findTagsByUser {
-        _id
-        name
-        color
-      }
-    }
-  `;
-
   const page = Number.isNaN(parseInt(searchParams?.page || "1", 10))
     ? 1
     : parseInt(searchParams?.page || "1", 10);
@@ -64,7 +33,7 @@ const Diary = async ({
 
   const { data, error } = await getClient()
     .query<IDiaryData>({
-      query: NOTES_QUERY,
+      query: findUserNotesPaginatedQuery,
       variables: {
         page,
         limit,

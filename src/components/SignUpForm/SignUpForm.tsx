@@ -8,7 +8,7 @@ import eyeClosed from "@/assets/images/eye-closed.svg";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import generateHash from "@/actions/generateHash";
-
+import { registerMutation } from "@/queries/registerMutation";
 
 interface RegisterData {
   register: boolean;
@@ -30,16 +30,10 @@ const SignUpForm = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
 
-  const REG = gql`
-    mutation Register($name: String!, $password: String!) {
-      register(createUserInput: { name: $name, password: $password })
-    }
-  `;
-
   const [register, { loading, error }] = useMutation<
     RegisterData,
     RegisterVariables
-  >(REG, {
+  >(registerMutation, {
     errorPolicy: "all",
     onError: (error) => {
       if (error) {
@@ -60,7 +54,7 @@ const SignUpForm = () => {
       if (data?.register) {
         const hash = await generateHash(password);
         if (hash) {
-        router.push("/diary");
+          router.push("/diary");
         }
       }
     },
