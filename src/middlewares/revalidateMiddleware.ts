@@ -61,10 +61,10 @@ export async function revalidateMiddleware(request: NextRequest) {
     const response = NextResponse.next();
 
     if (!data.revalidateToken) {
-      response.cookies.set("key", "", { maxAge: 0 });
-      response.cookies.set("refresh-token", "", { maxAge: 0 });
-      response.cookies.set("x-access-token", "", { maxAge: 0 });
-      response.cookies.set("logedIn", "", { maxAge: 0 });
+      response.cookies.delete("key");
+      response.cookies.delete("refresh-token");
+      response.cookies.delete("x-access-token");
+      response.cookies.delete("logedIn");
     } else {
       response.cookies.set("refresh-token", data.revalidateToken.refreshToken, {
         httpOnly: true,
@@ -88,10 +88,10 @@ export async function revalidateMiddleware(request: NextRequest) {
     return response;
   } catch (error) {
     const response = NextResponse.next();
-    response.cookies.set("key", "", { maxAge: 0 });
-    response.cookies.set("refresh-token", "", { maxAge: 0 });
-    response.cookies.set("x-access-token", "", { maxAge: 0 });
-    response.cookies.set("logedIn", "", { maxAge: 0 });
+    response.cookies.delete("key");
+    response.cookies.delete("refresh-token");
+    response.cookies.delete("x-access-token");
+    response.cookies.delete("logedIn");
     return response;
   }
 }
