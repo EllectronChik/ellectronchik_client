@@ -5,13 +5,27 @@ import { ApolloError } from "@apollo/client";
 import { IDrawItPack } from "@/models/IDrawItPack";
 import { cookies } from "next/headers";
 import { findAllDrawItPacksQuery } from "@/queries/findAllDrawItPacksQuery";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Draw It!",
+  description: 'Play "Draw It!" game with your friends',
+};
 
 interface IData {
   findAllDrawItPacks: IDrawItPack[];
 }
 
 const DrawIt = async () => {
-  const names = ["Гойдик", "КлёвоеИмя", "Абоба", "Рофлс"];
+  const names = [
+    "Гойдик",
+    "КлёвоеИмя",
+    "Абоба",
+    "Рофлс",
+    "Слон",
+    "Скуф",
+    "Альтушка",
+  ];
   const initialPlayerName =
     cookies().get("playerName")?.value ||
     `${names[Math.floor(Math.random() * names.length)]}#${Math.floor(
@@ -34,7 +48,7 @@ const DrawIt = async () => {
       };
     })
     .catch((err: ApolloError) => {
-      console.log(err.networkError?.name);
+      console.error(err);
       return {
         data: null,
         error: "Something went wrong, please try again later",
