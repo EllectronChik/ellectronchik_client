@@ -9,15 +9,15 @@
   border-radius: 15px;
   padding: 20px 30px;
   width: 350px;
-  height: 450px;
+  height: 485px;
   transition: height 0.5s ease;
   overflow: hidden;
 
   &.expanded {
-    height: 550px;
+    height: 585px;
 
     &.extraExpanded {
-      height: 665px;
+      height: 700px;
     }
   }
 
@@ -128,6 +128,7 @@
     border-bottom: 1px solid $blueColor;
     background-color: white;
     width: 150px;
+    text-align: center;
     &:focus {
       outline: none;
       border-bottom: 2px solid $blueColor;
@@ -161,10 +162,17 @@
     }
   }
 
+  .error {
+    width: 100%;
+    height: 25px;
+    color: $carnationPinkColor;
+    text-align: center;
+    font-size: 16px;
+  }
+
   .buttonBox {
     display: flex;
     justify-content: center;
-    margin-top: 5px;
     width: 100%;
     .button {
       font-size: 16px;
