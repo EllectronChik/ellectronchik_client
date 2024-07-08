@@ -25,6 +25,9 @@ import { ICreatedGameWithPackResp } from "@/models/ICreatedGameWithPackResp";
 import { ICreateGameWithPackVariables } from "@/models/ICreateGameWithPackVariables";
 import { createWithPackGqlMutation } from "@/queries/createDrawItGameWithPackMutation";
 import { createGqlMutation } from "@/queries/createDrawItGameMutation";
+import { v4 as uuidv4 } from "uuid";
+import getCookie from "@/lib/client/getCookie";
+import setCookie from "@/lib/client/setCookie";
 
 interface IProps extends HTMLProps<HTMLDivElement> {
   packs: IDrawItPack[];
@@ -57,22 +60,41 @@ const CreateNewDrawItGame: FC<IProps> = ({
 
   const router = useRouter();
 
-  const [playerCount, setPlayerCount] = useState(5);
-  const [pointsToWin, setPointsToWin] = useState(200);
-  const [oneGuessPoints, setOneGuessPoints] = useState(7);
-  const [timeLimit, setTimeLimit] = useState(60);
+  const [playerCount, setPlayerCount] = useState<number>(5);
+  const [pointsToWin, setPointsToWin] = useState<number>(200);
+  const [oneGuessPoints, setOneGuessPoints] = useState<number>(7);
+  const [timeLimit, setTimeLimit] = useState<number>(60);
   const [wordlistId, setWordlistId] = useState<string | null>(null);
   const [language, setLanguage] = useState<string>("");
   const [customWordlist, setCustomWordlist] = useState<string[] | null>(null);
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [packName, setPackName] = useState<string>("");
   const [packLanguage, setPackLanguage] = useState<string>("");
-  const [isPackFromFile, setIsPackFromFile] = useState(false);
+  const [isPackFromFile, setIsPackFromFile] = useState<boolean>(false);
+  const [creationGameError, setCreationGameError] = useState<string>("");
 
   const handleCreateNewGame = async () => {
     let newGame = null;
+    let playerId = await getCookie("playerId");
+
+    if (!playerId) {
+      playerId = uuidv4();
+      setCookie("playerId", playerId, 1000 * 24 * 60 * 60 * 31);
+    }
+
+    let playerSavedName = await getCookie("playerName");
+    let playerSavedAvatarId = await getCookie("playerAvatarId");
+
+    if (!playerSavedName) {
+      playerSavedName = playerName;
+      setCookie("playerName", playerSavedName, 1000 * 24 * 60 * 60 * 31);
+    }
+    if (!playerSavedAvatarId) {
+      playerSavedAvatarId = playerAvatarId.toString();
+      setCookie("playerAvatarId", playerSavedAvatarId , 1000 * 24 * 60 * 60 * 31);
+    }
+    
     if (wordlistId || customWordlist) {
-      console.log(wordlistId);
       if (savePack && customWordlist) {
         newGame = await createGameWithPack({
           variables: {
@@ -82,7 +104,7 @@ const CreateNewDrawItGame: FC<IProps> = ({
             timeLimit,
             wordlistId: wordlistId || null,
             customWordlist: customWordlist || null,
-            KingPlayerId: "1",
+            KingPlayerId: playerId,
             KingPlayerName: playerName,
             KingPlayerAvatarId: playerAvatarId,
             isPrivate,
@@ -100,13 +122,15 @@ const CreateNewDrawItGame: FC<IProps> = ({
             timeLimit,
             wordlistId: wordlistId || null,
             customWordlist: customWordlist || null,
-            KingPlayerId: "1",
+            KingPlayerId: playerId,
             KingPlayerName: playerName,
             KingPlayerAvatarId: playerAvatarId,
             isPrivate,
           },
         });
       }
+    } else {
+      setCreationGameError("Please select wordlist");
     }
     if (newGame?.data?.startGame.id) {
       router.push(`/drawit/${newGame.data.startGame.id}`);
@@ -156,7 +180,9 @@ const CreateNewDrawItGame: FC<IProps> = ({
           )}
         </>
       )}
-
+      <div className={classes.error}>
+        <p>{creationGameError}</p>
+      </div>
       <div className={classes.buttonBox}>
         <button className={classes.button} onClick={handleCreateNewGame}>
           Create game
