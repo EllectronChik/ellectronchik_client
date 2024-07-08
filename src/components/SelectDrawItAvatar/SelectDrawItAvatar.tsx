@@ -3,6 +3,7 @@
 import { Dispatch, FC, HTMLProps, SetStateAction } from "react";
 import classes from "./SelectDrawItAvatar.module.scss";
 import Image from "next/image";
+import setCookie from "@/lib/client/setCookie";
 
 const avatars = Array.from({ length: 26 }, (_, i) =>
   require(`@/assets/images/drawit/avatars/${i}.svg`)
@@ -22,7 +23,7 @@ const SelectDrawItAvatar: FC<IProps> = ({
     setAvatarId(i);
     setIsOpen(false);
     if (typeof document !== "undefined") {
-      document.cookie = `playerAvatarId=${i};`;
+      setCookie("playerAvatarId", i.toString(), 1000 * 24 * 60 * 60 * 31);
     }
   };
 
