@@ -3,5 +3,6 @@ export interface IGame {
   language: string;
   package: string;
   playersCount: number;
+  maxPlayersCount: number;
   pointsToWin: number;
 }
