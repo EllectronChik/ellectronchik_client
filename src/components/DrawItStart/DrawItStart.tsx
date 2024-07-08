@@ -21,7 +21,9 @@ const DrawItStart: FC<IProps> = ({
   ...props
 }) => {
   const [playerName, setPlayerName] = useState(initialPlayerName);
-  const [playerAvatarId, setPlayerAvatarId] = useState(initialPlayerAvatarId);
+  const [playerAvatarId, setPlayerAvatarId] = useState(
+    !isNaN(initialPlayerAvatarId) ? initialPlayerAvatarId : 0
+  );
   const [isCustomWordlist, setIsCustomWordlist] = useState(false);
   const [savePack, setSavePack] = useState(false);
 
@@ -49,6 +51,8 @@ const DrawItStart: FC<IProps> = ({
           <ExistingGame
             savePack={savePack}
             isCustomWordlist={isCustomWordlist}
+            playerName={playerName}
+            playerAvatarId={playerAvatarId}
           />
         </div>
       </div>
