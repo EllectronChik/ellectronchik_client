@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ellectronchik Client
 
-## Getting Started
+## О проекте
 
-First, run the development server:
+**Ellectronchik Client** — это клиентская часть веб-приложения для управления личными данными, включая **дневник** и **менеджер задач**. Проект разработан с использованием **Next.js** и **TypeScript**, а также содержит мини-игру _DrawIt_ на Canvas (находится в стадии разработки).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Основные возможности:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Дневник** — удобный интерфейс для ведения заметок и записей.
+- **Менеджер задач** — планирование и управление делами.
+- **Мини-игра DrawIt** — в процессе разработки, ожидаются новые функции.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Интерфейс приложения
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+| Скриншот                                           | Описание                                 |
+| -------------------------------------------------- | ---------------------------------------- |
+| <img src="readmeMedia/addNote.png" width="400">    | Окно добавления новой заметки.           |
+| <img src="readmeMedia/readyNote.png" width="400">  | Готовая заметка в дневнике.              |
+| <img src="readmeMedia/DrawItMain.png" width="400"> | Экран игры _DrawIt_ (пока не завершена). |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Построен с использованием
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js](https://nextjs.org/) — серверный рендеринг и удобный роутинг.
+- [TypeScript](https://www.typescriptlang.org/) — строгая типизация.
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) — стилизация интерфейса.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Начало работы
 
-## Deploy on Vercel
+### Предварительные требования
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Перед установкой убедитесь, что у вас установлены:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Node.js](https://nodejs.org/)
+- [pnpm](https://pnpm.io/)
+
+### Установка и запуск
+
+1. **Клонируйте репозиторий:**
+   ```sh
+   git clone https://github.com/EllectronChik/ellectronchik_client.git
+   ```
+2. **Перейдите в директорию проекта:**
+   ```sh
+   cd ellectronchik_client
+   ```
+3. **Установите зависимости:**
+   ```sh
+   pnpm install
+   ```
+4. **Настройте переменные окружения:**
+   Создайте файл `.env.local` и добавьте:
+   ```env
+   NEXT_PUBLIC_API_URL=<SERVER_URL_ADDRESS>
+   NEXT_PUBLIC_GRAPHQL_CONNECTION=$NEXT_PUBLIC_API_URL/graphql
+   SECRET=<SECRET_CODE>
+   ```
+5. **Запустите проект:**
+   ```sh
+   pnpm run dev
+   ```
+
+Приложение будет доступно по адресу **[http://localhost:3000](http://localhost:3000)**.
+
+## Лицензия
+
+Проект распространяется под лицензией **MIT**. Подробности в файле [LICENSE](LICENSE).
